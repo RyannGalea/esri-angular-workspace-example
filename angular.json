@@ -1,0 +1,131 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "outfield": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/outfield",
+      "sourceRoot": "projects/outfield/src",
+      "prefix": "fr",
+      "architect": {
+        "build": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "customWebpackConfig": {
+              "path": "projects/outfield/esri-web.config.js"
+            },
+            "outputPath": "dist/outfield",
+            "index": "projects/outfield/src/index.html",
+            "main": "projects/outfield/src/main.ts",
+            "polyfills": "projects/outfield/src/polyfills.ts",
+            "tsConfig": "projects/outfield/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/outfield/src/favicon.ico",
+              "projects/outfield/src/assets"
+            ],
+            "styles": [
+              "projects/outfield/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/outfield/src/environments/environment.ts",
+                  "with": "projects/outfield/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-builders/custom-webpack:dev-server",
+          "options": {
+            "browserTarget": "outfield:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "outfield:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "outfield:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/outfield/src/test.ts",
+            "polyfills": "projects/outfield/src/polyfills.ts",
+            "tsConfig": "projects/outfield/tsconfig.spec.json",
+            "karmaConfig": "projects/outfield/karma.conf.js",
+            "assets": [
+              "projects/outfield/src/favicon.ico",
+              "projects/outfield/src/assets"
+            ],
+            "styles": [
+              "projects/outfield/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/outfield/tsconfig.app.json",
+              "projects/outfield/tsconfig.spec.json",
+              "projects/outfield/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/outfield/e2e/protractor.conf.js",
+            "devServerTarget": "outfield:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "outfield:serve:production"
+            }
+          }
+        }
+      }
+    }},
+  "defaultProject": "outfield"
+}
